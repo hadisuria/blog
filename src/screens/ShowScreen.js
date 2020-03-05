@@ -25,13 +25,18 @@ ShowScreen.navigationOptions = ({navigation}) => {
           onPress={() =>
             navigation.navigate('Edit', {id: navigation.getParam('id')})
           }>
-          <Text>Edit</Text>
+          <Text style={styles.editIcon}>Edit</Text>
         </TouchableOpacity>
       );
     },
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  editIcon: {
+    fontSize: 18,
+    marginHorizontal: 15,
+  },
+});
 
 export default ShowScreen;
