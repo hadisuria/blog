@@ -8,8 +8,14 @@ const IndexScreen = ({navigation}) => {
   const {state, deleteBlogPost} = useContext(BlogContext);
 
   return (
-    <View style={{flex: 1}}>
-      <Button title="Add Post" onPress={() => navigation.navigate('Create')} />
+    <View style={{flex: 1, margin: 15}}>
+      {state.length <= 0 ? (
+        <Button
+          title="Start Adding Post.. You can touch here or add icon on the right"
+          onPress={() => navigation.navigate('Create')}
+        />
+      ) : null}
+
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.id.toString()}
@@ -18,15 +24,13 @@ const IndexScreen = ({navigation}) => {
             <TouchableOpacity
               onPress={() => navigation.navigate('Show', {id: item.id})}>
               <View style={styles.row}>
-                <Text style={styles.title}>
-                  {item.title} - {item.id}
-                </Text>
-                {/* <Icon name="trash" style={styles.icon} /> */}
+                <Text style={styles.title}>{item.title}</Text>
                 <TouchableOpacity
+                  style={styles.deleteIcon}
                   onPress={() => {
                     deleteBlogPost(item.id);
                   }}>
-                  <Text>Delete Icon</Text>
+                  <Icon name="trash" style={styles.deleteIcon} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
@@ -42,7 +46,7 @@ IndexScreen.navigationOptions = ({navigation}) => {
     headerRight: () => {
       return (
         <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-          <Text>Add Icon</Text>
+          <Text style={styles.addIcon}>+</Text>
         </TouchableOpacity>
       );
     },
@@ -55,14 +59,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
+    flex: 3,
+    fontSize: 20,
+    justifyContent: 'center',
   },
-  icon: {
-    fontSize: 24,
+  addIcon: {
+    fontSize: 36,
+    marginHorizontal: 20,
+  },
+  deleteIcon: {
+    flex: 1,
+    fontSize: 28,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
 });
 

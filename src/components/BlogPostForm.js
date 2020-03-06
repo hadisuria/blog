@@ -6,7 +6,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
   const [content, setContent] = useState(initialValues.content);
 
   return (
-    <View>
+    <View style={{margin: 15}}>
       <Text>Create Blog Screen</Text>
       <Text style={styles.label}>Enter Title:</Text>
       <TextInput
@@ -18,6 +18,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
       />
       <Text style={styles.label}>Enter Contents:</Text>
       <TextInput
+        multiline={true}
         defaultValue={title}
         style={styles.input}
         value={content}
@@ -28,7 +29,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
       <Button
         title="Save blog post"
         onPress={() => {
-          title === '' ? console.log('test') : onSubmit(title, content);
+          title === '' ? null : onSubmit(title, content);
         }}
       />
     </View>
