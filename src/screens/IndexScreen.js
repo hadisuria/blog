@@ -22,7 +22,7 @@ const IndexScreen = ({navigation}) => {
         renderItem={({item}) => {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Show', {id: item.id})}>
+              onPress={() => navigation.navigate('Edit', {id: item.id})}>
               <View style={styles.row}>
                 <Text style={styles.title}>{item.title}</Text>
                 <TouchableOpacity

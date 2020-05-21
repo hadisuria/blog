@@ -6,27 +6,32 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
   const [content, setContent] = useState(initialValues.content);
 
   return (
-    <View style={{margin: 15}}>
-      <Text>Create Blog Screen</Text>
-      <Text style={styles.label}>Enter Title:</Text>
-      <TextInput
-        style={styles.input}
-        value={title}
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={text => setTitle(text)}
-      />
-      <Text style={styles.label}>Enter Contents:</Text>
-      <TextInput
-        multiline={true}
-        defaultValue={title}
-        style={styles.input}
-        value={content}
-        autoCapitalize="none"
-        autoCorrect={false}
-        onChangeText={text => setContent(text)}
-      />
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <TextInput
+          testID="input_title"
+          style={styles.title}
+          multiline={true}
+          placeholder="Title here"
+          value={title}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={text => setTitle(text)}
+        />
+        <TextInput
+          testID="input_content"
+          style={styles.content}
+          multiline={true}
+          placeholder="Write here ..."
+          value={content}
+          autoCapitalize="none"
+          autoCorrect={false}
+          onChangeText={text => setContent(text)}
+        />
+      </View>
       <Button
+        testID="btn_save"
+        style={styles.saveBtn}
         title="Save blog post"
         onPress={() => {
           title === '' ? null : onSubmit(title, content);
@@ -44,15 +49,43 @@ BlogPostForm.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-  input: {
-    fontSize: 18,
-    borderWidth: 1,
+  container: {
+    flex: 1,
+    margin: 15,
+  },
+  textContainer: {
+    flex: 1,
     borderColor: 'black',
+    borderWidth: 1,
+    marginBottom: 10,
     padding: 5,
   },
-  label: {
-    fontSize: 20,
-    marginBottom: 10,
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    margin: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    paddingBottom: 5,
+  },
+  content: {
+    margin: 5,
+    fontSize: 18,
+    alignItems: 'flex-start',
+  },
+  saveBtn: {
+    borderWidth: 2,
+    borderColor: 'green',
+    justifyContent: 'flex-end',
+    fontSize: 24,
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  saveBtnText: {
+    justifyContent: 'flex-end',
+    fontSize: 24,
+    alignItems: 'center',
+    padding: 5,
   },
 });
 

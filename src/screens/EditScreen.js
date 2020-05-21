@@ -1,8 +1,7 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {Context as BlogContext} from '../context/BlogContext';
 import BlogPostForm from '../components/BlogPostForm';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const EditScreen = ({navigation}) => {
   const {state, editBlogPost} = useContext(BlogContext);
@@ -12,6 +11,7 @@ const EditScreen = ({navigation}) => {
 
   return (
     <BlogPostForm
+      style={{flex: 1}}
       initialValues={{title: blogPost.title, content: blogPost.content}}
       onSubmit={(title, content) => {
         editBlogPost(title, content, id, () => navigation.pop());
