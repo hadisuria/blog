@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextInput, Button, View, Text, StyleSheet} from 'react-native';
+import {TextInput, Button, View, StyleSheet} from 'react-native';
 
 const BlogPostForm = ({onSubmit, initialValues}) => {
   const [title, setTitle] = useState(initialValues.title);

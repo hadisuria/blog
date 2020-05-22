@@ -1,11 +1,27 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Button, FlatList, View, Text, StyleSheet} from 'react-native';
 import {Context as BlogContext} from '../context/BlogContext';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const IndexScreen = ({navigation}) => {
-  const {state, deleteBlogPost} = useContext(BlogContext);
+  const {state, deleteBlogPost, readBlogPost} = useContext(BlogContext);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@post');
+        let post = [];
+        post = jsonValue != null ? post.concat(JSON.parse(jsonValue)) : post;
+        readBlogPost(post);
+      } catch (e) {
+        // error reading value
+        console.log('error', e);
+      }
+    }
+    getData();
+  }, []);
 
   return (
     <View style={{flex: 1, margin: 15}}>
