@@ -54,8 +54,6 @@ const blogReducer = (state, action) => {
       return state.filter(blogPost => blogPost.id !== action.payload);
     }
     case 'edit_blogpost': {
-      const post = getData();
-      console.log('post', post);
       return state.map(blogPost => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;
       });
