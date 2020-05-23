@@ -1,9 +1,17 @@
 import React, {useContext, useEffect} from 'react';
-import {Button, FlatList, View, Text, StyleSheet} from 'react-native';
+import {
+  Button,
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Context as BlogContext} from '../context/BlogContext';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const IndexScreen = ({navigation}) => {
   const {state, deleteBlogPost, readBlogPost} = useContext(BlogContext);
@@ -44,7 +52,22 @@ const IndexScreen = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.deleteIcon}
                   onPress={() => {
-                    deleteBlogPost(item.id);
+                    Alert.alert(
+                      'Attention',
+                      'Are you sure want to delete this ?',
+                      [
+                        {
+                          text: 'NO',
+                          style: 'cancel',
+                        },
+                        {
+                          text: 'YES',
+                          onPress: () => {
+                            deleteBlogPost(item.id);
+                          },
+                        },
+                      ],
+                    );
                   }}>
                   <Icon name="trash" style={styles.deleteIcon} />
                 </TouchableOpacity>
@@ -71,7 +94,7 @@ IndexScreen.navigationOptions = ({navigation}) => {
 
 const styles = StyleSheet.create({
   row: {
-    flexGrow: 1,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
@@ -79,19 +102,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
-    flex: 3,
+    flex: 1,
     fontSize: 20,
     justifyContent: 'center',
+    fontWeight: 'bold',
   },
   addIcon: {
     fontSize: 36,
     marginHorizontal: 20,
   },
   deleteIcon: {
-    flex: 1,
-    fontSize: 28,
+    fontSize: 30,
     justifyContent: 'center',
-    alignSelf: 'center',
+    paddingHorizontal: 5,
+    color: 'crimson',
   },
 });
 

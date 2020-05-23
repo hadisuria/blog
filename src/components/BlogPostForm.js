@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {TextInput, Button, View, StyleSheet} from 'react-native';
+import {
+  TextInput,
+  Button,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
 
 const BlogPostForm = ({onSubmit, initialValues}) => {
   const [title, setTitle] = useState(initialValues.title);
@@ -7,7 +15,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
+      <ScrollView style={styles.textContainer}>
         <TextInput
           testID="input_title"
           style={styles.title}
@@ -28,15 +36,16 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
           autoCorrect={false}
           onChangeText={text => setContent(text)}
         />
-      </View>
-      <Button
+      </ScrollView>
+      <TouchableOpacity
         testID="btn_save"
         style={styles.saveBtn}
         title="Save blog post"
         onPress={() => {
           title === '' ? null : onSubmit(title, content);
-        }}
-      />
+        }}>
+        <Text style={styles.saveBtnText}>Save Blog Post</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -74,16 +83,17 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   saveBtn: {
-    borderWidth: 2,
-    borderColor: 'green',
     justifyContent: 'flex-end',
     fontSize: 24,
     alignItems: 'center',
     marginBottom: 5,
+    paddingVertical: 5,
+    backgroundColor: 'orange',
   },
   saveBtnText: {
     justifyContent: 'flex-end',
-    fontSize: 24,
+    fontSize: 20,
+    color: 'white',
     alignItems: 'center',
     padding: 5,
   },

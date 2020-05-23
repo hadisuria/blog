@@ -13,7 +13,6 @@ const saveData = async (state, id, title, content) => {
   ]);
   try {
     await AsyncStorage.setItem('@post', jsonValue);
-    alert('Data saved');
   } catch (e) {
     console.log('Data save failed');
     console.log(e);
@@ -38,7 +37,6 @@ const blogReducer = (state, action) => {
     case 'add_blogpost': {
       const id = Math.floor(Math.random() * 999999);
       saveData(state, id, action.payload.title, action.payload.content);
-      console.log('state', state);
       return [
         ...state,
         {
@@ -50,7 +48,6 @@ const blogReducer = (state, action) => {
     }
     case 'delete_blogpost': {
       removeData(state, action.payload);
-      console.log(action.payload);
       return state.filter(blogPost => blogPost.id !== action.payload);
     }
     case 'edit_blogpost': {
