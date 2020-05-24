@@ -61,8 +61,9 @@ EditScreen.navigationOptions = ({navigation}) => {
 const styles = StyleSheet.create({
   deleteIcon: {
     fontSize: 28,
+    color: 'crimson',
     justifyContent: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: 15,
   },
 });
 

@@ -20,6 +20,21 @@ const saveData = async (state, id, title, content) => {
   return state;
 };
 
+const saveEditData = async (state, editValue) => {
+  const jsonValue = JSON.stringify(
+    state.map(blogPost => {
+      return blogPost.id === editValue.id ? editValue : blogPost;
+    }),
+  );
+  try {
+    await AsyncStorage.setItem('@post', jsonValue);
+  } catch (e) {
+    console.log('Data save failed');
+    console.log(e);
+  }
+  return state;
+};
+
 const removeData = async (state, id) => {
   try {
     AsyncStorage.setItem(
@@ -51,6 +66,7 @@ const blogReducer = (state, action) => {
       return state.filter(blogPost => blogPost.id !== action.payload);
     }
     case 'edit_blogpost': {
+      saveEditData(state, action.payload);
       return state.map(blogPost => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;
       });
