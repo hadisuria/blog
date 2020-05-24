@@ -1,5 +1,6 @@
 import createDataContext from './createDataContext';
 import AsyncStorage from '@react-native-community/async-storage';
+import Toast from 'react-native-simple-toast';
 
 // asyncstorage function
 const saveData = async (state, id, title, content) => {
@@ -52,6 +53,7 @@ const blogReducer = (state, action) => {
     case 'add_blogpost': {
       const id = Math.floor(Math.random() * 999999);
       saveData(state, id, action.payload.title, action.payload.content);
+      Toast.show('Data saved...', Toast.SHORT);
       return [
         ...state,
         {
@@ -63,10 +65,12 @@ const blogReducer = (state, action) => {
     }
     case 'delete_blogpost': {
       removeData(state, action.payload);
+      Toast.show('Data deleted...', Toast.SHORT);
       return state.filter(blogPost => blogPost.id !== action.payload);
     }
     case 'edit_blogpost': {
       saveEditData(state, action.payload);
+      Toast.show('Data saved...', Toast.SHORT);
       return state.map(blogPost => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;
       });
