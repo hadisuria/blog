@@ -142,9 +142,12 @@ const IndexScreen = ({navigation}) => {
                   }
                 }}>
                 <View style={styles.row}>
-                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.title}>
+                    {item.title}
+                    {item.lock}
+                  </Text>
                   <TouchableOpacity
-                    style={styles.deleteIcon}
+                    disabled={item.lock}
                     onPress={() => {
                       Alert.alert(
                         'Attention',
@@ -163,7 +166,11 @@ const IndexScreen = ({navigation}) => {
                         ],
                       );
                     }}>
-                    <Icon name="trash" style={styles.deleteIcon} />
+                    {!item.lock ? (
+                      <Icon name="trash" style={styles.deleteIcon} />
+                    ) : (
+                      <Icon name="trash" style={styles.deleteIconDisabled} />
+                    )}
                   </TouchableOpacity>
                 </View>
               </TouchableOpacity>
@@ -226,7 +233,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     color: 'crimson',
   },
-
+  deleteIconDisabled: {
+    fontSize: 32,
+    justifyContent: 'center',
+    paddingHorizontal: 2,
+    color: 'rgba(220,20,60,0.5)',
+  },
   //modal style
   modal: {
     flex: 1,
