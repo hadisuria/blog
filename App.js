@@ -2,19 +2,21 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import IndexScreen from './src/screens/IndexScreen';
-import {Provider as BlogProvider} from './src/context/BlogContext';
+import {Provider as NoteProvider} from './src/context/BlogContext';
 import CreateScreen from './src/screens/CreateScreen';
 import EditScreen from './src/screens/EditScreen';
+import ManagePwdScreen from './src/screens/ManagePwdScreen';
 const navigator = createStackNavigator(
   {
     Index: IndexScreen,
     Create: CreateScreen,
     Edit: EditScreen,
+    Pwd: ManagePwdScreen,
   },
   {
     initialRouteName: 'Index',
     defaultNavigationOptions: {
-      title: 'Blog List',
+      title: 'Notes',
     },
   },
 );
@@ -23,8 +25,8 @@ const App = createAppContainer(navigator);
 
 export default () => {
   return (
-    <BlogProvider>
+    <NoteProvider>
       <App />
-    </BlogProvider>
+    </NoteProvider>
   );
 };

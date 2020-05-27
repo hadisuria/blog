@@ -10,6 +10,7 @@ const saveData = async (state, id, title, content) => {
       id: id,
       title: title,
       content: content,
+      lock: false,
     },
   ]);
   try {
@@ -27,6 +28,7 @@ const saveEditData = async (state, editValue) => {
       return blogPost.id === editValue.id ? editValue : blogPost;
     }),
   );
+  console.log(jsonValue);
   try {
     await AsyncStorage.setItem('@post', jsonValue);
   } catch (e) {
@@ -60,6 +62,7 @@ const blogReducer = (state, action) => {
           id: id,
           title: action.payload.title,
           content: action.payload.content,
+          lock: false,
         },
       ];
     }
@@ -70,6 +73,8 @@ const blogReducer = (state, action) => {
     }
     case 'edit_blogpost': {
       saveEditData(state, action.payload);
+      console.log('edit state', state);
+      console.log('edit payload', action.payload);
       Toast.show('Data saved...', Toast.SHORT);
       return state.map(blogPost => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;
@@ -99,8 +104,8 @@ const deleteBlogPost = dispatch => {
 };
 
 const editBlogPost = dispatch => {
-  return (title, content, id, callback) => {
-    dispatch({type: 'edit_blogpost', payload: {title, content, id}});
+  return (title, content, id, lock, callback) => {
+    dispatch({type: 'edit_blogpost', payload: {title, content, id, lock}});
     if (callback) {
       callback();
     }
