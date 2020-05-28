@@ -67,9 +67,9 @@ const IndexScreen = ({navigation}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setTextInput('');
           setIsWarning(false);
+          handleModal();
         }}>
         <View style={styles.modal}>
           <View style={{flex: 3}}>

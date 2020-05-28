@@ -1,17 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   TextInput,
-  Button,
   View,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   Text,
+  BackHandler,
 } from 'react-native';
 
 const BlogPostForm = ({onSubmit, initialValues}) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
+
+  useEffect(() => {
+    const backAction = () => {
+      onSubmit(title, content);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [title, content, onSubmit]);
 
   return (
     <View style={styles.container}>
@@ -24,7 +38,9 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
           value={title}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={text => setTitle(text)}
+          onChangeText={text => {
+            setTitle(text);
+          }}
         />
         <TextInput
           testID="input_content"
@@ -34,7 +50,9 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
           value={content}
           autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={text => setContent(text)}
+          onChangeText={text => {
+            setContent(text);
+          }}
         />
       </ScrollView>
       <TouchableOpacity

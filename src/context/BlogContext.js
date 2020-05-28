@@ -28,7 +28,6 @@ const saveEditData = async (state, editValue) => {
       return blogPost.id === editValue.id ? editValue : blogPost;
     }),
   );
-  console.log(jsonValue);
   try {
     await AsyncStorage.setItem('@post', jsonValue);
   } catch (e) {
@@ -73,8 +72,6 @@ const blogReducer = (state, action) => {
     }
     case 'edit_blogpost': {
       saveEditData(state, action.payload);
-      console.log('edit state', state);
-      console.log('edit payload', action.payload);
       Toast.show('Data saved...', Toast.SHORT);
       return state.map(blogPost => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;

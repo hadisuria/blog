@@ -7,6 +7,7 @@ import {
   Text,
   Modal,
   TextInput,
+  BackHandler,
 } from 'react-native';
 import {Context as BlogContext} from '../context/BlogContext';
 import BlogPostForm from '../components/BlogPostForm';
@@ -45,6 +46,7 @@ const EditScreen = ({navigation}) => {
       }
     }
     getPwd();
+
     navigation.setParams({deletePost: handleDeletePost});
     navigation.setParams({navHandleModal: handleModal});
   }, []);
@@ -62,8 +64,8 @@ const EditScreen = ({navigation}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setIsWarning(false);
+          handleModal();
         }}>
         <View style={styles.modal}>
           <View style={{flex: 3}}>
@@ -110,7 +112,6 @@ const EditScreen = ({navigation}) => {
                 onPress={() => {
                   if (textInput === uPwd) {
                     setTextInput('');
-                    console.log('BlogPost', blogPost);
                     {
                       blogPost.Lock
                         ? Toast.show('Lock Disabled', Toast.SHORT)
@@ -148,7 +149,9 @@ const EditScreen = ({navigation}) => {
         style={{flex: 1}}
         initialValues={{title: blogPost.title, content: blogPost.content}}
         onSubmit={(title, content) => {
-          editBlogPost(title, content, id, state.lock, () => navigation.pop());
+          editBlogPost(title, content, id, blogPost.lock, () =>
+            navigation.pop(),
+          );
         }}
       />
     </View>
