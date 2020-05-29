@@ -3,14 +3,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
 
 // asyncstorage function
-const saveData = async (state, id, title, content) => {
+const saveData = async (state, id, title, content, lock) => {
   const jsonValue = JSON.stringify([
     ...state,
     {
       id: id,
       title: title,
       content: content,
-      lock: false,
+      lock: lock,
     },
   ]);
   try {
@@ -53,7 +53,13 @@ const blogReducer = (state, action) => {
   switch (action.type) {
     case 'add_blogpost': {
       const id = Math.floor(Math.random() * 999999);
-      saveData(state, id, action.payload.title, action.payload.content);
+      saveData(
+        state,
+        id,
+        action.payload.title,
+        action.payload.content,
+        action.payload.lock,
+      );
       Toast.show('Data saved...', Toast.SHORT);
       return [
         ...state,
@@ -61,7 +67,7 @@ const blogReducer = (state, action) => {
           id: id,
           title: action.payload.title,
           content: action.payload.content,
-          lock: false,
+          lock: action.payload.lock,
         },
       ];
     }
@@ -86,8 +92,8 @@ const blogReducer = (state, action) => {
 };
 
 const addBlogPost = dispatch => {
-  return (title, content, callback) => {
-    dispatch({type: 'add_blogpost', payload: {title, content}});
+  return (title, content, lock, callback) => {
+    dispatch({type: 'add_blogpost', payload: {title, content, lock}});
     if (callback) {
       callback();
     }

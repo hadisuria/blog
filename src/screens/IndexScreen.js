@@ -7,32 +7,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  Modal,
-  TextInput,
 } from 'react-native';
 import {Context as BlogContext} from '../context/BlogContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-community/async-storage';
+import ModalLock from '../components/ModalLock';
 
 const IndexScreen = ({navigation}) => {
   const {state, deleteBlogPost, readBlogPost} = useContext(BlogContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isWarning, setIsWarning] = useState(false);
-  const [textInput, setTextInput] = useState('');
   const [pressedId, setPressedId] = useState('');
-  const [uPwd, setUPwd] = useState('');
-
-  async function getPwd() {
-    try {
-      const pwd = await AsyncStorage.getItem('@pwd');
-      setUPwd(pwd);
-      return pwd;
-    } catch (e) {
-      // error reading value
-      console.log('error', e);
-    }
-  }
-  getPwd();
 
   useEffect(() => {
     async function getData() {
@@ -51,81 +35,27 @@ const IndexScreen = ({navigation}) => {
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
-    setIsWarning(false);
+    // setIsWarning(false);
   };
 
   return (
     <View style={{flex: 1, margin: 15}}>
+      {modalVisible ? (
+        <ModalLock
+          lock={true}
+          handleModal={() => handleModal()}
+          handleLock={() => {
+            handleModal();
+            navigation.navigate('Edit', {id: pressedId});
+          }}
+        />
+      ) : null}
       {state.length <= 0 ? (
         <Button
           title="Start Adding Post.. You can touch here or add icon on the right"
           onPress={() => navigation.navigate('Create')}
         />
       ) : null}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setTextInput('');
-          setIsWarning(false);
-          handleModal();
-        }}>
-        <View style={styles.modal}>
-          <View style={{flex: 3}}>
-            <TouchableOpacity
-              style={{flex: 1}}
-              onPress={() => {
-                handleModal();
-              }}
-            />
-          </View>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalHeader}>
-              <View style={{flex: 1}} />
-              <Text style={styles.modalHeaderTitle}>Enter Password</Text>
-              <Icon
-                name="close"
-                style={styles.modalIconClose}
-                onPress={() => handleModal()}
-              />
-            </View>
-            <View style={styles.modalContent}>
-              <Text style={styles.contentText}>Enter password to unlock</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Password"
-                value={textInput}
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry={true}
-                onChangeText={text => setTextInput(text)}
-              />
-              {isWarning && (
-                <Text style={styles.warningText}>
-                  *Incorrect password, please enter again
-                </Text>
-              )}
-              <TouchableOpacity
-                onPress={item => {
-                  if (textInput === uPwd) {
-                    setTextInput('');
-                    handleModal();
-                    navigation.navigate('Edit', {id: pressedId});
-                  } else {
-                    setIsWarning(true);
-                    setTextInput('');
-                  }
-                }}>
-                <View style={styles.lockButton}>
-                  <Text style={styles.lockButtonText}>Unlock</Text>
-                  <Icon name="unlock" style={styles.lockButtonIcon} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
       <FlatList
         data={[...state].reverse()}
         keyExtractor={blogPost => blogPost.id.toString()}
@@ -238,83 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 2,
     color: 'rgba(220,20,60,0.5)',
-  },
-  //modal style
-  modal: {
-    flex: 1,
-  },
-  modalContainer: {
-    flex: 2,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  modalHeader: {
-    borderTopStartRadius: 10,
-    borderTopEndRadius: 10,
-    backgroundColor: 'orange',
-    borderBottomWidth: 1,
-    borderColor: 'grey',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'stretch',
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: -10,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-
-    elevation: 14,
-  },
-  modalHeaderTitle: {
-    flex: 16,
-    textAlign: 'center',
-    justifyContent: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  modalIconClose: {
-    flex: 1,
-    color: 'crimson',
-    fontSize: 28,
-  },
-  modalContent: {
-    flex: 1,
-    // alignItems: 'center',
-    alignSelf: 'stretch',
-    backgroundColor: 'white',
-    padding: 32,
-  },
-  contentText: {
-    paddingVertical: 4,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: 'grey',
-    backgroundColor: 'lightgrey',
-    padding: 4,
-  },
-  warningText: {
-    color: 'red',
-  },
-  lockButton: {
-    marginVertical: 16,
-    padding: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'orange',
-    flexDirection: 'row',
-  },
-  lockButtonText: {
-    fontSize: 18,
-  },
-  lockButtonIcon: {
-    fontSize: 18,
-    paddingHorizontal: 4,
   },
 });
 
