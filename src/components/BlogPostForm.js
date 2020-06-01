@@ -12,11 +12,11 @@ import {
 const BlogPostForm = ({onSubmit, initialValues}) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
+  const [onChange, setOnChange] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
       onSubmit(title, content);
-      return true;
     };
 
     const backHandler = BackHandler.addEventListener(

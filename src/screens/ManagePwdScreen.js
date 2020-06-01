@@ -18,7 +18,6 @@ const ManagePwdScreen = () => {
     async function getData() {
       try {
         const pwd = await AsyncStorage.getItem('@pwd');
-        console.log(pwd);
         return pwd === null ? pwd : setPwd(pwd);
       } catch (e) {
         // error reading value

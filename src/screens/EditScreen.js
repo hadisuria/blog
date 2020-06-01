@@ -47,7 +47,9 @@ const EditScreen = ({navigation}) => {
         style={{flex: 1}}
         initialValues={{title: blogPost.title, content: blogPost.content}}
         onSubmit={(title, content) => {
-          editBlogPost(title, content, id, isLock, () => navigation.pop());
+          blogPost.title !== title || blogPost.content !== content
+            ? editBlogPost(title, content, id, isLock)
+            : null;
         }}
       />
     </View>
