@@ -133,6 +133,15 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -10,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+
+    elevation: 14,
   },
   modalHeader: {
     borderTopStartRadius: 10,
@@ -145,15 +154,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     padding: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: -10,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-
-    elevation: 14,
   },
   modalHeaderTitle: {
     flex: 16,

@@ -13,19 +13,18 @@ const ManagePwdScreen = () => {
   const [enterPwd, setEnterPwd] = useState('');
   const [c_pwd, setC_Pwd] = useState('');
   const [c_cpwd, setC_Cpwd] = useState('');
+  const [pwdTrue, setPwdTrue] = useState(false);
 
-  useEffect(() => {
-    async function getData() {
-      try {
-        const pwd = await AsyncStorage.getItem('@pwd');
-        return pwd === null ? pwd : setPwd(pwd);
-      } catch (e) {
-        // error reading value
-        console.log('error', e);
-      }
+  async function getData() {
+    try {
+      const pwd = await AsyncStorage.getItem('@pwd');
+      return pwd === null ? pwd : setPwd(pwd);
+    } catch (e) {
+      // error reading value
+      console.log('error', e);
     }
-    getData();
-  }, []);
+  }
+  getData();
 
   const savePwd = async c_pwd => {
     try {
@@ -45,19 +44,33 @@ const ManagePwdScreen = () => {
       ) : (
         <View>
           <Text style={styles.textTitle}>Change Current Password</Text>
-          <Text style={styles.text}>Enter Current Password to continue</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Current Password"
-            value={enterPwd}
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={true}
-            onChangeText={text => setEnterPwd(text)}
-          />
+          {pwdTrue === false && (
+            <View>
+              <Text style={styles.text}>
+                Enter Current Password to continue
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Current Password"
+                value={enterPwd}
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={true}
+                onChangeText={text => setEnterPwd(text)}
+                editable={!pwdTrue}
+              />
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  pwd === enterPwd ? setPwdTrue(true) : null;
+                }}>
+                <Text style={styles.btnText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       )}
-      {pwd === enterPwd && (
+      {pwdTrue === true && (
         <View>
           <Text style={styles.text}>Input password</Text>
           <TextInput
@@ -80,7 +93,7 @@ const ManagePwdScreen = () => {
             onChangeText={text => setC_Cpwd(text)}
           />
           <TouchableOpacity
-            style={styles.saveBtn}
+            style={styles.btn}
             title="Save blog post"
             onPress={() => {
               if (c_pwd === '' || c_pwd !== c_cpwd) {
@@ -92,9 +105,10 @@ const ManagePwdScreen = () => {
                 setC_Pwd('');
                 setC_Cpwd('');
                 setEnterPwd('');
+                setPwdTrue(false);
               }
             }}>
-            <Text style={styles.saveBtnText}>Save Password</Text>
+            <Text style={styles.btnText}>Save Password</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -110,28 +124,32 @@ const styles = StyleSheet.create({
   },
   textTitle: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 24,
     marginVertical: 4,
   },
   text: {
-    fontSize: 16,
-    marginVertical: 2,
+    fontSize: 18,
+    marginVertical: 4,
+    paddingVertical: 4,
   },
   input: {
     borderWidth: 2,
     borderColor: 'grey',
-    padding: 2,
-    marginVertical: 2,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    marginVertical: 4,
+    fontSize: 18,
   },
-  saveBtn: {
+  btn: {
     justifyContent: 'flex-end',
     fontSize: 24,
     alignItems: 'center',
     marginVertical: 5,
     paddingVertical: 5,
     backgroundColor: 'orange',
+    borderRadius: 8,
   },
-  saveBtnText: {
+  btnText: {
     justifyContent: 'flex-end',
     fontSize: 20,
     color: 'white',
