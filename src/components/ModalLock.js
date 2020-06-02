@@ -29,6 +29,7 @@ const ModalLock = ({lock, handleModal, handleLock}) => {
 
   async function handleInput() {
     if (textInput === uPwd) {
+      setIsWarning(false);
       setTextInput('');
       {
         lock

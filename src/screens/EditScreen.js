@@ -10,7 +10,9 @@ const EditScreen = ({navigation}) => {
   const {state, editBlogPost, deleteBlogPost} = useContext(BlogContext);
   const blogPost = state.find(blogPost => blogPost.id === id);
   const [modalVisible, setModalVisible] = useState(false);
-  const [isLock, setIsLock] = useState(blogPost.lock);
+  const [isLock, setIsLock] = useState(
+    blogPost !== undefined ? blogPost.lock : false,
+  );
 
   const handleDeletePost = () => {
     console.log('deleteData');
@@ -48,8 +50,8 @@ const EditScreen = ({navigation}) => {
         initialValues={{title: blogPost.title, content: blogPost.content}}
         onSubmit={(title, content) => {
           blogPost.title !== title || blogPost.content !== content
-            ? editBlogPost(title, content, id, isLock)
-            : null;
+            ? editBlogPost(title, content, id, isLock, () => navigation.pop())
+            : navigation.pop();
         }}
       />
     </View>
