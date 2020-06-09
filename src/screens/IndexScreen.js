@@ -34,6 +34,7 @@ const IndexScreen = ({navigation}) => {
   }, []);
 
   const handleModal = () => {
+    modalVisible === false ? null : setPressedId('');
     setModalVisible(!modalVisible);
     // setIsWarning(false);
   };
@@ -63,6 +64,7 @@ const IndexScreen = ({navigation}) => {
           return (
             <View>
               <TouchableOpacity
+                style={pressedId === item.id ? styles.pressedItem : null}
                 onPress={() => {
                   if (item.lock) {
                     setPressedId(item.id);
@@ -140,6 +142,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 1,
+  },
+  pressedItem: {
+    backgroundColor: 'rgba(0,0,0,0.1)',
   },
   title: {
     flex: 1,

@@ -32,11 +32,14 @@ const CreateScreen = ({navigation}) => {
         />
       ) : null}
       <BlogPostForm
-        onSubmit={(title, content) => {
+        onSubmit={(title, content, backHandler) => {
           title === '' && content === ''
-            ? navigation.navigate('Index')
-            : addBlogPost(title, content, isLock, () =>
-                navigation.navigate('Index'),
+            ? !backHandler && navigation.navigate('Index')
+            : addBlogPost(
+                title,
+                content,
+                isLock,
+                () => !backHandler && navigation.navigate('Index'),
               );
         }}
       />
