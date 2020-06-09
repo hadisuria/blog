@@ -12,11 +12,10 @@ import {
 const BlogPostForm = ({onSubmit, initialValues}) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
-  const [onChange, setOnChange] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
-      onSubmit(title, content);
+      onSubmit(title, content, true);
     };
 
     const backHandler = BackHandler.addEventListener(
@@ -60,7 +59,7 @@ const BlogPostForm = ({onSubmit, initialValues}) => {
         style={styles.saveBtn}
         title="Save blog post"
         onPress={() => {
-          title === '' ? null : onSubmit(title, content);
+          onSubmit(title, content, false);
         }}>
         <Text style={styles.saveBtnText}>Save Blog Post</Text>
       </TouchableOpacity>
