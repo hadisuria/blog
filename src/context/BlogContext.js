@@ -2,6 +2,8 @@ import createDataContext from './createDataContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
 
+const moment = require('moment');
+
 // asyncstorage function
 const saveData = async (state, id, title, content, lock) => {
   const jsonValue = JSON.stringify([
@@ -52,7 +54,7 @@ const blogReducer = (state, action) => {
   // reducer
   switch (action.type) {
     case 'add_blogpost': {
-      const id = Math.floor(Math.random() * 999999);
+      const id = moment(new Date()).format('DD/MM/YYYY-hh:mm:ss');
       saveData(
         state,
         id,

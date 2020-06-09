@@ -48,10 +48,16 @@ const EditScreen = ({navigation}) => {
       <BlogPostForm
         style={{flex: 1}}
         initialValues={{title: blogPost.title, content: blogPost.content}}
-        onSubmit={(title, content) => {
+        onSubmit={(title, content, backHandler) => {
           blogPost.title !== title || blogPost.content !== content
-            ? editBlogPost(title, content, id, isLock, () => navigation.pop())
-            : navigation.pop();
+            ? editBlogPost(
+                title,
+                content,
+                id,
+                isLock,
+                () => !backHandler && navigation.pop(),
+              )
+            : !backHandler && navigation.pop();
         }}
       />
     </View>
