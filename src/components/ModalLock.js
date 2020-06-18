@@ -31,11 +31,6 @@ const ModalLock = ({lock, handleModal, handleLock}) => {
     if (textInput === uPwd) {
       setIsWarning(false);
       setTextInput('');
-      {
-        lock
-          ? Toast.show('Lock Disabled', Toast.SHORT)
-          : Toast.show('Note Locked', Toast.SHORT);
-      }
       handleLock();
     } else {
       setIsWarning(true);
@@ -67,11 +62,9 @@ const ModalLock = ({lock, handleModal, handleLock}) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
             <View style={{flex: 1}} />
-            {lock ? (
-              <Text style={styles.modalHeaderTitle}>Note Locked</Text>
-            ) : (
-              <Text style={styles.modalHeaderTitle}>Note Lock Disabled</Text>
-            )}
+            <Text style={styles.modalHeaderTitle}>
+              {lock === true ? 'Note Locked' : 'Note Lock Disabled'}
+            </Text>
             <Icon
               name="close"
               style={styles.modalIconClose}
@@ -80,7 +73,9 @@ const ModalLock = ({lock, handleModal, handleLock}) => {
           </View>
           <View style={styles.modalContent}>
             <Text style={styles.contentText}>
-              Enter password to lock/unlock
+              {lock === false
+                ? 'Enter password to lock'
+                : 'Enter password to unlock'}
             </Text>
             <TextInput
               style={styles.textInput}

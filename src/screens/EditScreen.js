@@ -49,7 +49,9 @@ const EditScreen = ({navigation}) => {
         style={{flex: 1}}
         initialValues={{title: blogPost.title, content: blogPost.content}}
         onSubmit={(title, content, backHandler) => {
-          blogPost.title !== title || blogPost.content !== content
+          blogPost.title !== title ||
+          blogPost.content !== content ||
+          blogPost.lock !== isLock
             ? editBlogPost(
                 title,
                 content,
